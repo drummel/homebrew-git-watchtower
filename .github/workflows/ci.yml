@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Lint, audit, install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Cache Homebrew Bundler RubyGems
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
+          key: ${{ runner.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: ${{ runner.os }}-rubygems-
+
+      - name: brew style
+        run: brew style ./Formula/git-watchtower.rb
+
+      - name: brew audit
+        run: brew audit --strict --online --formula ./Formula/git-watchtower.rb
+
+      - name: brew install
+        run: brew install --verbose --build-from-source ./Formula/git-watchtower.rb
+
+      - name: brew test
+        run: brew test ./Formula/git-watchtower.rb
