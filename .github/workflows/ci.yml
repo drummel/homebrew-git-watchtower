@@ -24,14 +24,20 @@ jobs:
           key: ${{ runner.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
           restore-keys: ${{ runner.os }}-rubygems-
 
+      - name: Register checkout as a tap
+        run: |
+          tap_dir="$(brew --repository)/Library/Taps/drummel/homebrew-git-watchtower"
+          mkdir -p "$(dirname "$tap_dir")"
+          ln -s "$GITHUB_WORKSPACE" "$tap_dir"
+
       - name: brew style
-        run: brew style ./Formula/git-watchtower.rb
+        run: brew style drummel/git-watchtower
 
       - name: brew audit
-        run: brew audit --strict --online --formula ./Formula/git-watchtower.rb
+        run: brew audit --strict --online --formula drummel/git-watchtower/git-watchtower
 
       - name: brew install
-        run: brew install --verbose --build-from-source ./Formula/git-watchtower.rb
+        run: brew install --verbose --build-from-source drummel/git-watchtower/git-watchtower
 
       - name: brew test
-        run: brew test ./Formula/git-watchtower.rb
+        run: brew test drummel/git-watchtower/git-watchtower
