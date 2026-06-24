@@ -30,6 +30,11 @@ jobs:
           mkdir -p "$(dirname "$tap_dir")"
           ln -s "$GITHUB_WORKSPACE" "$tap_dir"
 
+      # Homebrew 6.0+ refuses to load formulae from untrusted third-party taps.
+      # Trust this tap explicitly so style/audit/install/test can evaluate it.
+      - name: Trust the tap
+        run: brew trust drummel/git-watchtower
+
       - name: brew style
         run: brew style drummel/git-watchtower
 
