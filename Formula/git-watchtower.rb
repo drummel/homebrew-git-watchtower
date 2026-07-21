@@ -1,8 +1,8 @@
 class GitWatchtower < Formula
   desc "Terminal-based Git branch monitoring for AI coding agents"
   homepage "https://github.com/drummel/git-watchtower"
-  url "https://registry.npmjs.org/git-watchtower/-/git-watchtower-2.6.1.tgz"
-  sha256 "52d4bec7c71d5c6b8a60938b9a7488b5b1b10e12a0460545673d696b10928842"
+  url "https://registry.npmjs.org/git-watchtower/-/git-watchtower-2.7.0.tgz"
+  sha256 "62b0633da4155c4ef4cfb5497ae2c5aa7ba6d22901fb76c2caa088e39d9dfe05"
   license "MIT"
 
   depends_on "node"
